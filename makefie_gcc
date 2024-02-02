@@ -1,0 +1,23 @@
+# Makefile
+
+CC = gcc
+CFLAGS = -Wall -Werror -O3 -fsanitize=address -fsanitize=undefined
+SRC_FILES = test_reverse.c reverse.c
+HEADER_FILES = reverse.h
+TARGET = reverse_test
+
+all: $(TARGET)
+
+$(TARGET): $(SRC_FILES) $(HEADER_FILES)
+	$(CC) $(CFLAGS) $^ -o $@
+
+clean:
+	rm -f $(TARGET)
+
+format:
+	clang-format -style=Google -i $(SRC_FILES) $(HEADER_FILES)
+
+check: $(TARGET)
+	./$(TARGET)
+
+.PHONY: all clean format check
